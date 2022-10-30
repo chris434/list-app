@@ -39,15 +39,35 @@ export const signup = async(req, res) => {
         const newUser = User({ email, password: hashedPassword, name })
         await newUser.save()
         const token = jwt.sign({ userId: newUser._id }, process.env.SECRET_TOKEN, { expiresIn: '24h' })
-        res.json({ message: 'user has been created', token })
+        res.status(200).json({ message: 'user has been created', token })
 
     } catch (error) {
 
         if (error.errors) {
-            res.json({ field: 'email', message: error.message })
+            res.status(401).json({ field: 'email', message: error.message })
             return
         }
         console.log(error.message)
-        res.json({ field: error.field, message: error.message })
+        res.status(401).json({ field: error.field, message: error.message })
+    }
+}
+export const login = async(req, res) => {
+    const { email, password } = req.body
+
+    try {
+        const user = await User.findOne({ email })
+
+        if (!user) {
+            throw new Error('email or password are incorrect')
+        }
+        const correctPassword = await bcrypt.compare(password, user.password)
+        if (!correctPassword) {
+            throw new Error('email or password are incorrect')
+        }
+        const token = jwt.sign({ userId: user._id }, process.env.SECRET_TOKEN, { expiresIn: '24h' })
+        res.status(200).json({ message: 'user logged in', token })
+
+    } catch (error) {
+        res.status(401).json(error.message)
     }
 }
