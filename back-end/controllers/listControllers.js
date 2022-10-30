@@ -31,12 +31,7 @@ export const getLists = async(req, res) => {
 }
 
 export const getList = async(req, res) => {
-    const { id } = req.params
-    try {
-        const list = await List.findById(id)
-        res.status(200).json(list)
-    } catch (error) {
-        res.status(401).json(error.message)
-    }
+    const { list } = req.body
+    res.status(200).json(list)
 
 }
