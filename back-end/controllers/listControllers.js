@@ -18,7 +18,15 @@ export const createList = async(req, res) => {
         })
 
     }
+}
 
-
+export const getLists = async(req, res) => {
+    const { adminID } = req.body
+    try {
+        const lists = await List.find({ adminID })
+        res.status(200).json(lists)
+    } catch (error) {
+        res.status(401).json(error.message)
+    }
 
 }
