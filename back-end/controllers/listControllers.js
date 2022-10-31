@@ -35,3 +35,21 @@ export const getList = async(req, res) => {
     res.status(200).json(list)
 
 }
+export const addListItem = async(req, res) => {
+    const { id } = req.params
+    const { itemName, list } = req.body
+    const { listItems } = list
+
+    try {
+
+        if (!itemName) {
+            throw new Error('item name is required')
+        }
+        const newListItem = {...listItems, ... { itemName } }
+        await List.findByIdAndUpdate({ _id: id }, { listItems: [...listItems, newListItem] })
+        res.status(200).json({ message: `item name ${itemName} has been added` })
+    } catch (error) {
+        res.status(401).json(error.message)
+    }
+
+}

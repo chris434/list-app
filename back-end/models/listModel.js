@@ -11,8 +11,10 @@ const listSchema = new mongoose.Schema({
             inProgress: { type: 'boolean', default: false },
             timeToBeCompleted: { type: 'date' }
         },
+        required: true,
         default: []
     }],
+
     invites: [{
         type: {
             email: { type: 'string', required: true },
