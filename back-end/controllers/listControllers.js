@@ -1,4 +1,5 @@
 import { List } from '../models/listModel.js'
+import { User } from '../models/userModel.js'
 
 export const createList = async(req, res) => {
     const { adminID, listName } = req.body
@@ -51,5 +52,26 @@ export const addListItem = async(req, res) => {
     } catch (error) {
         res.status(401).json(error.message)
     }
+
+}
+export const editListItem = async(req, res) => {
+    const { id } = req.params
+    const { listItemId } = req.query
+    const listItemFields = req.body
+
+    let fields = {}
+    Object.entries(listItemFields).forEach(([key, value]) => {
+        fields = {...fields, [`listItems.$.${key}`]: value }
+    })
+
+    try {
+        await List.updateOne({ _id: id, "listItems._id": listItemId }, { $set: fields })
+
+        res.status(200).json({ message: `list item ${listItemId} of list ${id} has been edited` })
+    } catch (error) {
+        res.status(200).json(error.message)
+    }
+
+
 
 }
