@@ -25,10 +25,11 @@ export const authenticateList = async(req, res, next) => {
         if (list.adminID !== verifiedToken.userId) {
             throw new Error("user dose not have access to this list")
         }
-
-        req.body.list = list
         next()
     } catch (error) {
+        if (error.kind === 'ObjectId') {
+            return res.status(404).json({ message: `list id ${id} dose not exist` })
+        }
         res.status(401).json(error.message)
     }
 
