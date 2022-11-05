@@ -1,5 +1,5 @@
 import express from 'express'
-import { createList, getLists, getList, addListItem, editListItem, deleteListItem } from '../controllers/listControllers.js'
+import { createList, getLists, getList, addListItem, editListItem, deleteListItem, deleteList } from '../controllers/listControllers.js'
 import { authenticateUser, authenticateList } from '../Middleware/authenticate.js'
 
 const router = express.Router()
@@ -10,5 +10,7 @@ router.get('/get-list/:id', authenticateList, getList)
 router.post('/add-list-item/:id', authenticateList, addListItem)
 router.post('/edit-list-item/:id', authenticateList, editListItem)
 router.delete('/delete-list-item/:id', authenticateList, deleteListItem)
+router.delete('/delete-list/:id', authenticateList, deleteList)
+
 
 export default router

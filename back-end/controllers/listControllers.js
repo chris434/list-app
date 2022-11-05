@@ -86,3 +86,14 @@ export const deleteListItem = async(req, res) => {
         res.status(402).json(error.message)
     }
 }
+
+export const deleteList = async(req, res) => {
+    const { id } = req.params
+
+    try {
+        await List.findByIdAndDelete(id)
+        res.status(200).json({ message: `list ${id} has been deleted` })
+    } catch (error) {
+        res.status(401).json(error.message)
+    }
+}
