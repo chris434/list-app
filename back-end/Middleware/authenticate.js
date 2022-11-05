@@ -22,9 +22,15 @@ export const authenticateList = async(req, res, next) => {
         const verifiedToken = jwt.verify(token, process.env.SECRET_TOKEN)
 
         const list = await List.findById(id)
+
+        if (!list) {
+            throw new Error(`list ${id} dose not exist`)
+        }
+
         if (list.adminID !== verifiedToken.userId) {
             throw new Error("user dose not have access to this list")
         }
+        req.list = list
         next()
     } catch (error) {
         if (error.kind === 'ObjectId') {
