@@ -1,10 +1,11 @@
 import express from 'express'
-import { getUsersCategories } from '../controllers/categoryControllers.js'
+import { getUsersCategories, createCategory } from '../controllers/categoryControllers.js'
 import { authenticateUser, authenticateList } from '../Middleware/authenticate.js'
 
 const router = express.Router()
 
-router.ge('/', authenticateUser, getUsersCategories)
+router.get('/', authenticateUser, getUsersCategories)
+router.post('/', authenticateUser, createCategory)
 
 
 export default router

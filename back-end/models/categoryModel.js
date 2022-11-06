@@ -4,9 +4,9 @@ const categorySchema = new mongoose.Schema({
     categoryName: { type: 'string', required: true },
     categoryColor: { type: 'string', required: true },
     icon: { type: 'string', required: true },
-    adminID: { type: 'string', required: true },
+    userId: { type: 'string', required: true },
     listIds: {
-        type: [string],
+        type: [String],
         required: true,
         default: []
     }

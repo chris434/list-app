@@ -31,6 +31,7 @@ export const authenticateList = async(req, res, next) => {
             throw new Error("user dose not have access to this list")
         }
         req.list = list
+        req.userId = verifiedToken.userId
         next()
     } catch (error) {
         if (error.kind === 'ObjectId') {
