@@ -6,8 +6,8 @@ import { FieldError } from '../customErrors/customErrors.js'
 
 
 export const signup = async(req, res) => {
-    const { email, name, password } = await req.body
-    const verifier = new UserFieldVerifier(email.toString(), name.toString(), password.toString())
+    const { email, username, password } = await req.body
+    const verifier = new UserFieldVerifier(email.toString(), username.toString(), password.toString())
 
     try {
         switch (true) {
@@ -17,8 +17,8 @@ export const signup = async(req, res) => {
             case verifier.emailIsValid():
                 throw new FieldError('email', 'invalid email')
                     //name verify
-            case verifier.hasField('name'):
-                throw new FieldError('name', 'name is required')
+            case verifier.hasField('username'):
+                throw new FieldError('username', 'username is required')
             case verifier.nameLength():
                 throw new FieldError('name', 'name must be shorter than 26 letters')
                     //password verify
@@ -36,7 +36,7 @@ export const signup = async(req, res) => {
                 break;
         }
         const hashedPassword = await bcrypt.hash(password, 10)
-        const newUser = User({ email, password: hashedPassword, name })
+        const newUser = User({ email, password: hashedPassword, username })
         await newUser.save()
         const token = jwt.sign({ userId: newUser._id }, process.env.SECRET_TOKEN, { expiresIn: '24h' })
         res.status(200).json({ message: 'user has been created', token })

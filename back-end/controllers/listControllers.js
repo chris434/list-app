@@ -1,7 +1,8 @@
 import { List } from '../models/listModel.js'
 
 export const createList = async(req, res) => {
-    const { adminID, listName } = req.body
+    const { listName } = req.body
+    const { userId: adminID } = req
 
     try {
         const newList = new List({ adminID, listName })

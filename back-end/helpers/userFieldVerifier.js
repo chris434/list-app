@@ -1,8 +1,8 @@
   import { EMAIL_PATTERN } from '../regexPatens/pattens.js'
   export class UserFieldVerifier {
-      constructor(email, name, password) {
+      constructor(email, username, password) {
           this.email = email;
-          this.name = name;
+          this.username = username;
           this.password = password
       }
       hasField(field) {
@@ -14,7 +14,7 @@
           return !regex.test(this.email)
       }
       nameLength() {
-          return !this.name.length > 25
+          return !this.username.length > 25
       }
 
       passwordLength() {
