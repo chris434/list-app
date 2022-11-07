@@ -27,3 +27,14 @@ export const getUsersCategories = async(req, res) => {
         res.status(401).json(error.message)
     }
 }
+
+export const getListCategories = async(req, res) => {
+
+    const { listId } = req.params
+    try {
+        const categories = await Category.find({ listIds: [listId] })
+        res.status(200).json(categories)
+    } catch (error) {
+
+    }
+}
